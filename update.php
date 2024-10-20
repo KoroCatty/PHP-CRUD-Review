@@ -1,6 +1,19 @@
 <?php
 include 'connect.php';
 
+// URL パラメータを取得
+$id = $_GET['id'];
+
+// Update したいデータを取得
+$sql = "SELECT * FROM `crudTable` WHERE id = $id";
+$result = mysqli_query($con, $sql);
+$row = mysqli_fetch_assoc($result);
+$name = $row['name'];
+$email = $row['email'];
+$mobile = $row['mobile'];
+$password = $row['password'];
+
+
 if (isset($_POST['submit'])) {
   // 入力のエスケープ処理
   $name = mysqli_real_escape_string($con, $_POST['name']); // mysqli_real_escape_string で SQL インジェクション対策
@@ -9,18 +22,17 @@ if (isset($_POST['submit'])) {
   $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // PASSWORD_DEFAULT でハッシュ化
 
   // SQL文を作成
-  $sql = "INSERT INTO crudTable (name, email, mobile, password) VALUES ('$name', '$email', '$mobile', '$password')";
+  $sql = "UPDATE `crudTable` SET name = '$name', email = '$email', mobile = '$mobile', password = '$password' WHERE id = $id"; // URLの id に一致するデータを更新
 
   // クエリ実行
   $result = mysqli_query($con, $sql);
 
   if ($result) {
-    echo "Data inserted successfully";
+    echo "Data UPDATED successfully";
     // リダイレクト
     header('location:display.php');
   } else {
-    echo "Data not inserted" .
-      die(mysqli_error($con));
+    die(mysqli_error($con));
   }
 }
 ?>
@@ -44,32 +56,41 @@ if (isset($_POST['submit'])) {
 <body>
   <div class="container my-5">
 
+  <!-- Populate the data from DB -->
     <form method="post">
       <!-- Name -->
       <div class="mb-3">
         <label class="form-label">Name</label>
-        <input type="text" class="form-control" placeholder="Enter your name" name="name" autocomplete="off">
+        <input type="text" class="form-control" placeholder="Enter your name" name="name" autocomplete="off"
+          value="<?php echo htmlspecialchars($name, ENT_QUOTES, 'UTF-8'); ?>">
+
       </div>
 
       <!-- Email -->
       <div class="mb-3">
         <label class="form-label">Email</label>
-        <input type="email" class="form-control" placeholder="Enter your email" name="email" autocomplete="off">
+        <input type="email" class="form-control" placeholder="Enter your email" name="email" autocomplete="off"
+        value="<?php echo htmlspecialchars($email, ENT_QUOTES, 'UTF-8'); ?>"
+        >
       </div>
 
       <!-- Mobile Number -->
       <div class="mb-3">
         <label class="form-label">Mobile Number</label>
-        <input type="text" class="form-control" placeholder="Enter your mobile number" name="mobile" autocomplete="off">
+        <input type="text" class="form-control" placeholder="Enter your mobile number" name="mobile" autocomplete="off"
+        value="<?php echo htmlspecialchars($mobile, ENT_QUOTES, 'UTF-8'); ?>"
+        >
       </div>
 
       <!-- Password -->
       <div class="mb-3">
         <label class="form-label">Password</label>
-        <input type="password" class="form-control" placeholder="Enter your password" name="password" autocomplete="off">
+        <input type="password" class="form-control" placeholder="Enter your password" name="password" autocomplete="off"
+        value="<?php echo htmlspecialchars($password, ENT_QUOTES, 'UTF-8'); ?>"
+        >
       </div>
 
-      <button name="submit" type="submit" class="btn btn-primary">Submit</button>
+      <button name="submit" type="submit" class="btn btn-primary">UPDATE</button>
     </form>
 
   </div>

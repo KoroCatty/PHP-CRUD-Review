@@ -2,7 +2,7 @@
 include 'connect.php';
 
 if (isset($_POST['submit'])) {
- echo "Form submitted";
+  echo "Form submitted";
 }
 
 if (isset($_POST['submit'])) {
@@ -24,7 +24,7 @@ if (isset($_POST['submit'])) {
     // header('location:read.php');
   } else {
     echo "Data not inserted" .
-    die(mysqli_error($con));
+      die(mysqli_error($con));
   }
 }
 ?>
@@ -36,10 +36,13 @@ if (isset($_POST['submit'])) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CRUD Operation</title>
-  <link rel="stylesheet" href="style.css">
 
   <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+  <!-- Original Minified CSS -->
+  <link rel="stylesheet" href="./build/css/main.css">
+
 </head>
 
 <body>
@@ -74,6 +77,9 @@ if (isset($_POST['submit'])) {
     </form>
 
   </div>
+
+  <!-- original JS -->
+  <script src="./build/js/main.js"></script>
 </body>
 
 </html>
